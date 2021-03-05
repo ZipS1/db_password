@@ -7,9 +7,26 @@ import sqlite3
 from hashlib import sha256
 
 
+class Db_handler():
+    def __init__(self):
+        pass
+
+    def input(self):
+        pass
+
+    def delete(self):
+        pass
+
+    def set(self):
+        pass
+
+
 class Pwd_handler:
     """docstring for Pwd_handler"""
     def __init__(self):
+        pass
+
+    def _new(self):
         pass
 
     def input(self):
@@ -24,6 +41,7 @@ class Pwd_handler:
 
 def setup():
     pwd_handler = Pwd_handler()
+    db_handler = Db_handler()
     print("Nice to meet you here bro :)")
 
 
