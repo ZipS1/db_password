@@ -3,13 +3,13 @@ from hashlib import sha256
 from getpass import getpass
 
 
-class Handler():
+class Db_handler():
     def __init__(self):
         self.db = sqlite3.connect("inf.db")
         self.cursor = self.db.cursor()
 
 
-class Db_handler(Handler):
+class Data_handler(Db_handler):
     def __init__(self):
         super().__init__()
 
@@ -23,7 +23,7 @@ class Db_handler(Handler):
         pass
 
 
-class Pwd_handler(Handler):
+class Pwd_handler(Db_handler):
     """docstring for Pwd_handler"""
     def __init__(self):
         super().__init__()
