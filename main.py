@@ -5,6 +5,7 @@
 
 import sqlite3
 from hashlib import sha256
+from getpass import getpass
 
 
 class Db_handler():
@@ -12,7 +13,7 @@ class Db_handler():
         pass
 
     def input(self):
-        pass
+        pwd = getpass("Enter your code-word: ")
 
     def delete(self):
         pass
