@@ -49,23 +49,30 @@ class Pwd_handler(Handler):
         self.db.commit()
         print("Your password successfully recorded!")
 
-    def input(self):
+    def inputpwd(self):
         pwd = getpass("Enter your code-word: ")
+        correct = self._check(pwd)
+        while not correct:
+            pwd = getpass("Wrong! Enter again: ")
+            correct = self._check(pwd)
 
-    def check(self):
-        pass
+    def _check(self, pwd):
+        hashed_pwd = sha256(pwd.encode("utf-8")).hexdigest()
+        self.cursor.execute(f"SELECT pwd FROM keys WHERE pwd = '{hashed_pwd}'")
+        if self.cursor.fetchone() is None:
+            return False
+        else:
+            return True
 
     def set(self):
         pass
 
 
-def setup():
+def main():
     print("Nice to meet you here bro :)\n")
     pwd_handler = Pwd_handler()
-
-
-def main():
-    setup()
+    pwd_handler.inputpwd()
+    print("Access to database granted :)")
 
 
 if __name__ == '__main__':
