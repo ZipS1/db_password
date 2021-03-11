@@ -1,4 +1,0 @@
-1. Seeing welcoming message
-2. Entering password
-3. Edit/seeng database
-4. Exiting
