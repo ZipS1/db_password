@@ -1,19 +1,20 @@
-# HASHING EXAMPLE
-#
-# data = input('Enter plaintext data: ')
-# output = sha256(data.encode('utf-8'))
-
 import sqlite3
 from hashlib import sha256
 from getpass import getpass
 
 
-class Db_handler():
+class Handler():
     def __init__(self):
-        pass
+        self.db = sqlite3.connect("inf.db")
+        self.cursor = self.db.cursor()
+
+
+class Db_handler(Handler):
+    def __init__(self):
+        super().__init__()
 
     def input(self):
-        pwd = getpass("Enter your code-word: ")
+        pass
 
     def delete(self):
         pass
@@ -22,16 +23,34 @@ class Db_handler():
         pass
 
 
-class Pwd_handler:
+class Pwd_handler(Handler):
     """docstring for Pwd_handler"""
     def __init__(self):
-        pass
+        super().__init__()
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS keys (
+            pwd TEXT
+            )""")
+        self.db.commit()
+        self.cursor.execute("SELECT pwd FROM keys")
+        if self.cursor.fetchone() is None:
+            self._new()
 
     def _new(self):
-        pass
+        pwd = getpass("I detected that you have no password here, "
+                      "enter yours: ")
+        pwd_rpt = getpass("Confirm your new password: ")
+        while not pwd == pwd_rpt:
+            print("Your passwords do not match!")
+            pwd = getpass("\nEnter password: ")
+            pwd_rpt = getpass("Confirm your new password: ")
+
+        hashed_pwd = sha256(pwd.encode("utf-8")).hexdigest()
+        self.cursor.execute(f"INSERT INTO keys VALUES (?)", (hashed_pwd,))
+        self.db.commit()
+        print("Your password successfully recorded!")
 
     def input(self):
-        pass
+        pwd = getpass("Enter your code-word: ")
 
     def check(self):
         pass
@@ -41,9 +60,8 @@ class Pwd_handler:
 
 
 def setup():
+    print("Nice to meet you here bro :)\n")
     pwd_handler = Pwd_handler()
-    db_handler = Db_handler()
-    print("Nice to meet you here bro :)")
 
 
 def main():
