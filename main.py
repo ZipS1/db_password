@@ -36,7 +36,7 @@ class Pwd_handler(Handler):
             self._new()
 
     def _new(self):
-        pwd = getpass("I detected that you have no password here, "
+        pwd = getpass("\nI detected that you have no password here, "
                       "enter yours: ")
         pwd_rpt = getpass("Confirm your new password: ")
         while not pwd == pwd_rpt:
@@ -50,7 +50,7 @@ class Pwd_handler(Handler):
         print("Your password successfully recorded!")
 
     def inputpwd(self):
-        pwd = getpass("Enter your code-word: ")
+        pwd = getpass("\nEnter your code-word: ")
         correct = self._check(pwd)
         while not correct:
             pwd = getpass("Wrong! Enter again: ")
@@ -69,7 +69,7 @@ class Pwd_handler(Handler):
 
 
 def main():
-    print("Nice to meet you here bro :)\n")
+    print("Nice to meet you here bro :)")
     pwd_handler = Pwd_handler()
     pwd_handler.inputpwd()
     print("Access to database granted :)")
