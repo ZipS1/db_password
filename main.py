@@ -1,6 +1,8 @@
 import sqlite3
 from hashlib import sha256
 from getpass import getpass
+import os
+from sys import platform
 
 
 class Db_handler():
@@ -68,7 +70,17 @@ class Pwd_handler(Db_handler):
         pass
 
 
+def clearwin():
+    if platform == "win32":
+        os.system("cls")
+    elif platform == "linux":
+        os.system("clear")
+    else:
+        print("Ошибка: неизвестная ОС")
+
+
 def main():
+    clearwin()
     print("Nice to meet you here bro :)")
     pwd_handler = Pwd_handler()
     pwd_handler.inputpwd()
