@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3                # TODO: make delay before showing messages
 from hashlib import sha256
 from getpass import getpass
 
