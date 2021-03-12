@@ -1,5 +1,5 @@
 import sqlite3                # TODO: make delay before showing messages
-from hashlib import sha256    #       exit after 3 attempts
+from hashlib import sha256
 from getpass import getpass
 
 DB_FILE_NAME = "access.db"
