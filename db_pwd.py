@@ -1,6 +1,7 @@
 import sqlite3                # TODO: make delay before showing messages
 from hashlib import sha256
 from getpass import getpass
+import asyncioW
 
 DB_FILE_NAME = "access.db"
 
