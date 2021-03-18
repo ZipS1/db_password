@@ -1,6 +1,7 @@
 import sqlite3                # TODO: make delay before showing messages
 from hashlib import sha256
 from getpass import getpass
+import asyncio
 
 DB_FILE_NAME = "access.db"
 
@@ -16,19 +17,19 @@ class Pwd_handler:
         self.db.commit()
         self.cursor.execute("SELECT pwd FROM pwdhash")
         if self.cursor.fetchone() is None:
-            self._new()
+            self._new_user()
         self.cursor.execute(f"SELECT pwd FROM pwdhash")
         self.hashed_pwd = self.cursor.fetchall()[0][0]
 
-    def _new(self):
+    def _new_user(self):
         print("I detected that you have no password here.")
-        pwd = self._create()
+        pwd = self._createpwd()
         hashed_pwd = self._encrypt(pwd)
         self.cursor.execute(f"INSERT INTO pwdhash VALUES (?)", (hashed_pwd,))
         self.db.commit()
         print("Your password successfully recorded!\n")
 
-    def _create(self):
+    def _createpwd(self):
         pwd = getpass("Enter new password: ")
         pwd_rpt = getpass("Confirm your new password: ")
         while not pwd == pwd_rpt:
@@ -39,7 +40,7 @@ class Pwd_handler:
 
     def inputpwd(self):
         pwd = getpass("Enter your code-word: ")
-        correct = self._check(pwd)
+        correct = self._checkpwd(pwd)
         attempts = 1
         while not correct:
 
@@ -52,9 +53,9 @@ class Pwd_handler:
                 pwd = getpass("Wrong! Enter again: ")
             else:
                 pwd = getpass("Last try! Enter again: ")
-            correct = self._check(pwd)
+            correct = self._checkpwd(pwd)
 
-    def _check(self, word):
+    def _checkpwd(self, word):
         hashed_word = sha256(word.encode("utf-8")).hexdigest()
         self.cursor.execute(f"SELECT pwd FROM pwdhash "
                             f"WHERE pwd = '{hashed_word}'")
@@ -63,10 +64,10 @@ class Pwd_handler:
         else:
             return True
 
-    def set_new(self):
+    def set_new_pwd(self):
         print("\nTo set new password, you firstly need to enter old one")
         self.inputpwd()
-        new_pwd = self._create()
+        new_pwd = self._createpwd()
         new_hashed_pwd = self._encrypt(new_pwd)
         self.cursor.execute(f"UPDATE pwdhash SET pwd = '{new_hashed_pwd}'")
         self.db.commit()
@@ -81,7 +82,7 @@ def main():
     pwd_handler = Pwd_handler(DB_FILE_NAME)
     pwd_handler.inputpwd()
     print("Access granted :)")
-    pwd_handler.set_new()
+    pwd_handler.set_new_pwd()
 
 
 if __name__ == '__main__':
