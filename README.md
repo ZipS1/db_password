@@ -1,4 +1,4 @@
-This is my module which provides password encrypted in database with sha256 algorithm
+This is my module which provides encrypted password stored in database with sha256 algorithm
 
 ## Using 
 ```python
